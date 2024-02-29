@@ -38,12 +38,12 @@ function Signup() {
       setError("Passwords do not match");
       return;
     }
-    if (!passwordRegex.test(password)) {
-      setError(
-        "Password must be at least 8 characters and include at least one letter, one number, and one special character"
-      );
-      return;
-    }
+    // if (!passwordRegex.test(password)) {
+    //   setError(
+    //     "Password must be at least 8 characters and include at least one letter, one number, and one special character"
+    //   );
+    //   return;
+    // }
     setError("");
     axios
       .post("http://localhost:4001/auth/register", {
