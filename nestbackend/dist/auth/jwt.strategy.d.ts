@@ -22,15 +22,14 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Document } from 'mongoose';
-export declare class Signup {
-    name: String;
-    email: String;
-    password: String;
+import { Model } from 'mongoose';
+import { User } from './schemas/user.schema';
+declare const JwtStrategy_base: new (...args: any[]) => any;
+export declare class JwtStrategy extends JwtStrategy_base {
+    private userModel;
+    constructor(userModel: Model<User>);
+    validate(payload: any): Promise<import("mongoose").Document<unknown, {}, User> & User & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
 }
-export type SignupModel = Signup & Document;
-export declare const SignupSchema: import("mongoose").Schema<Signup, import("mongoose").Model<Signup, any, any, any, Document<unknown, any, Signup> & Signup & {
-    _id: import("mongoose").Types.ObjectId;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Signup, Document<unknown, {}, import("mongoose").FlatRecord<Signup>> & import("mongoose").FlatRecord<Signup> & {
-    _id: import("mongoose").Types.ObjectId;
-}>;
+export {};

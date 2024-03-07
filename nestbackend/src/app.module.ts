@@ -1,14 +1,18 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MongooseModule } from '@nestjs/mongoose';
-import { SignupModule } from './signup/signup.module';
+import { AuthModule } from './auth/auth.module';
+
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://wajdi:wajdi@cluster0.dlql6ky.mongodb.net/wajdi?retryWrites=true&w=majority',
-    ),
-    SignupModule,
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
+    MongooseModule.forRoot(process.env.DB_URI),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

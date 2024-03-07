@@ -46,7 +46,7 @@ function Signup() {
     // }
     setError("");
     axios
-      .post("http://localhost:4001/auth/register", {
+      .post("http://localhost:4001/auth/signup", {
         name,
         email,
         password,

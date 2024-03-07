@@ -12,33 +12,34 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SignupService = void 0;
+exports.JwtStrategy = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
+const passport_1 = require("@nestjs/passport");
 const mongoose_2 = require("mongoose");
-const bcrypt = require("bcrypt");
-let SignupService = class SignupService {
-    constructor(signupModel) {
-        this.signupModel = signupModel;
-    }
-    async signup(user) {
-        const newUser = new this.signupModel({
-            name: user.name,
-            email: user.email,
-            password: await bcrypt.hash(user.password, 10),
+const passport_jwt_1 = require("passport-jwt");
+const user_schema_1 = require("./schemas/user.schema");
+let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
+    constructor(userModel) {
+        super({
+            jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
+            secretOrKey: process.env.JWT_SECRET,
         });
-        try {
-            await newUser.save();
+        this.userModel = userModel;
+    }
+    async validate(payload) {
+        const { id } = payload;
+        const user = await this.userModel.findById(id);
+        if (!user) {
+            throw new common_1.UnauthorizedException('Login first to access this endpoint.');
         }
-        catch (error) {
-            console.log(error);
-        }
+        return user;
     }
 };
-exports.SignupService = SignupService;
-exports.SignupService = SignupService = __decorate([
+exports.JwtStrategy = JwtStrategy;
+exports.JwtStrategy = JwtStrategy = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)('Signup')),
+    __param(0, (0, mongoose_1.InjectModel)(user_schema_1.User.name)),
     __metadata("design:paramtypes", [mongoose_2.Model])
-], SignupService);
-//# sourceMappingURL=signup.service.js.map
+], JwtStrategy);
+//# sourceMappingURL=jwt.strategy.js.map

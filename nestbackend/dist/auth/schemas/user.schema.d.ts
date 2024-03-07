@@ -22,16 +22,16 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { SignupModel } from './signup.model';
-import { Model } from 'mongoose';
-interface User {
+import { Document } from 'mongoose';
+export declare class User extends Document {
     name: string;
     email: string;
     password: string;
+    role: string;
+    status: number;
 }
-export declare class SignupService {
-    private signupModel;
-    constructor(signupModel: Model<SignupModel>);
-    signup(user: User): Promise<void>;
-}
-export {};
+export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any, Document<unknown, any, User> & User & {
+    _id: import("mongoose").Types.ObjectId;
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, User, Document<unknown, {}, import("mongoose").FlatRecord<User>> & import("mongoose").FlatRecord<User> & {
+    _id: import("mongoose").Types.ObjectId;
+}>;

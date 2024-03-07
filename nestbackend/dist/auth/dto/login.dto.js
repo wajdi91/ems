@@ -9,25 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SignupSchema = exports.Signup = void 0;
-const mongoose_1 = require("@nestjs/mongoose");
-let Signup = class Signup {
-};
-exports.Signup = Signup;
+exports.LoginDto = void 0;
+const class_validator_1 = require("class-validator");
+class LoginDto {
+}
+exports.LoginDto = LoginDto;
 __decorate([
-    (0, mongoose_1.Prop)({ unique: true }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEmail)({}, { message: 'Please enter correct email' }),
     __metadata("design:type", String)
-], Signup.prototype, "name", void 0);
+], LoginDto.prototype, "email", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ unique: true }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(6),
     __metadata("design:type", String)
-], Signup.prototype, "email", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Signup.prototype, "password", void 0);
-exports.Signup = Signup = __decorate([
-    (0, mongoose_1.Schema)()
-], Signup);
-exports.SignupSchema = mongoose_1.SchemaFactory.createForClass(Signup);
-//# sourceMappingURL=signup.model.js.map
+], LoginDto.prototype, "password", void 0);
+//# sourceMappingURL=login.dto.js.map

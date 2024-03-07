@@ -27,23 +27,25 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "http://localhost:4001/auth/login",
+        "http://localhost:4001/auth/login/",
         {
           email,
           password,
         }
       );
-      const data = response.data;
-      console.log("Login response:", data);
-      if (data && data.others && data.others._id) {
+      const { token } = response.data;
+      console.log('Response data:', response.data);
+
+      if (token) {
         console.log("Logged in Successfully");
-        sessionStorage.setItem("token", data.token);
-        sessionStorage.setItem("id", data.others._id);
-        sessionStorage.setItem("name", data.others.name);
-        sessionStorage.setItem("email", data.others.email);
-        sessionStorage.setItem("role", data.others.role);
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("id", response.data.id);
+        sessionStorage.setItem("name", response.data.name);
+        sessionStorage.setItem("email", response.data.email);
+        sessionStorage.setItem("role", response.data.role);
+  
         dispatch(authActions.login());
-        if (data.others.role === "user") {
+        if (response.data.role === "user") {
           navigate("/home/employee");
         } else {
           navigate("/home");
@@ -54,7 +56,7 @@ function Login() {
       }
     } catch (err) {
       if (err.response && err.response.data) {
-        setError(err.response.data.error);
+        setError(err.response.data.error || "Login failed. Please try again.");
       } else {
         setError("Login failed. Please try again.");
       }
